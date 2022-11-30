@@ -1,0 +1,1 @@
+var doc_info = "Dimorphic Hemmorhoids(Piles)?28?Dr. Ghazi Shaiful Alam Choudhury?1711393227?Vill+Post:Baliadanga, P.S: Nawabgonj Sadar, Dist: Chapai Nawabgonj"
