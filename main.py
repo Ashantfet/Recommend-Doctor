@@ -67,7 +67,6 @@ tr.replace({'prognosis':{'Fungal infection':0,'Allergy':1,'GERD':2,'Chronic chol
 X_test= tr[l1]
 y_test = tr[["prognosis"]]
 np.ravel(y_test)
-psymptoms = input().split(",")
 
 # Doc
 doc ={"Fungal infection":[0,"Dr. Mahboob Jahan Ahmed","1712290927","Adhunik Sadar Hospital, Chapainawabganj"],
@@ -205,4 +204,4 @@ def recommend():
 def docinfo():
     return render_template('docinfo.html')
 app.ddebug = True
-app.run()
+app.run(port = 5025)

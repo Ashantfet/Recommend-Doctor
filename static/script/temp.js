@@ -1,1 +1,1 @@
-var doc_info = "Dimorphic Hemmorhoids(Piles)?28?Dr. Ghazi Shaiful Alam Choudhury?1711393227?Vill+Post:Baliadanga, P.S: Nawabgonj Sadar, Dist: Chapai Nawabgonj"
+var doc_info = "Paralysis?13?Dr. Md. Tohidur Rahaman?1718505414?Kashuri Vila,Holding No-67, Word No-3, New Bilshimla, Rajshahi Cantonment, Rajshahi."
