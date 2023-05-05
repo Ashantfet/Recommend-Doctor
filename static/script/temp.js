@@ -1,1 +1,1 @@
-var doc_info = "Fungal infection?0?Dr. Mahboob Jahan Ahmed?1712290927?Adhunik Sadar Hospital, Chapainawabganj"
+var doc_info = "Bronchial Asthma?9?Dr. Md. Shafiqul Islam?1711061814?AUSTOMONISHA,CHATMOHAR,PABNA."
