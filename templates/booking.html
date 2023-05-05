@@ -5,7 +5,58 @@
         <meta name = "viewport" content ="width = device-width, initial scale =1.0">
         <link href ="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel=" stylesheet">
 
-        <title>Doctor Recommendation</title>
+        <title>Book an Appointment</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f2f2f2;
+		}
+		
+		h1 {
+			color: #008080;
+			text-align: center;
+		}
+		
+		form {
+			background-color: #fff;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			box-shadow: 0 0 10px rgba(0,0,0,0.2);
+			margin: 0 auto;
+			max-width: 500px;
+			padding: 20px;
+		}
+		
+		label {
+			display: block;
+			font-weight: bold;
+			margin-bottom: 10px;
+		}
+		
+		input[type=text], input[type=email], input[type=date], input[type=time], select {
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			box-sizing: border-box;
+			font-size: 16px;
+			margin-bottom: 20px;
+			padding: 10px;
+			width: 100%;
+		}
+		
+		input[type=submit] {
+			background-color: #008080;
+			border: none;
+			border-radius: 5px;
+			color: #fff;
+			cursor: pointer;
+			font-size: 16px;
+			padding: 10px 20px;
+		}
+		
+		input[type=submit]:hover {
+			background-color: #006666;
+		}
+	</style>
 {% endblock %}
 
 {% block body %}
@@ -32,7 +83,43 @@
             </div>
           </header>
           <hr>
-          
+          <h1>Book an Appointment</h1>
+	<form method="post" action="process-booking.php">
+		<label for="name">Name:</label>
+		<input type="text" id="name" name="name" required>
+		
+		<label for="email">Email:</label>
+		<input type="email" id="email" name="email" required>
+		
+		<label for="phone">Phone:</label>
+		<input type="text" id="phone" name="phone" required>
+		
+		<label for="date">Date:</label>
+		<input type="date" id="date" name="date" required>
+		
+		<label for="time">Time:</label>
+		<input type="time" id="time" name="time" required>
+		
+		<label for="specialty">Specialty:</label>
+		<select id="specialty" name="specialty" required>
+			<option value="">Select a Specialty</option>
+			<option value="Dentist">Dentist</option>
+			<option value="Cardiologist">Cardiologist</option>
+			<option value="Gynecologist">Gynecologist</option>
+			<option value="Dermatologist">Dermatologist</option>
+		</select>
+		
+		<label for="doctor">Doctor:</label>
+		<select id="doctor" name="doctor" required>
+			<option value="">Select a Doctor</option>
+			<option value="Dr. John Doe">Dr. John Doe</option>
+			<option value="Dr. Jane Smith">Dr. Jane Smith</option>
+			<option value="Dr. David Lee">Dr. David Lee</option>
+			<option value="Dr. Maria Rodriguez">Dr. Maria Rodriguez</option>
+		</select>
+		
+		<input type="submit" value="Book Appointment">
+	</form>
           <hr>
           <footer class="text-gray-600 body-font">
             <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">

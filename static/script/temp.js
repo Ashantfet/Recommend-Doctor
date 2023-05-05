@@ -1,1 +1,1 @@
-var doc_info = "Paralysis?13?Dr. Md. Tohidur Rahaman?1718505414?Kashuri Vila,Holding No-67, Word No-3, New Bilshimla, Rajshahi Cantonment, Rajshahi."
+var doc_info = "Chicken pox?16?Dr. Debashis Biswas?1717306650?House No:2,Ward No:1,Vill:Horogram,P.O: Rajshahi C"

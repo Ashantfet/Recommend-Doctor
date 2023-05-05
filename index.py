@@ -8,12 +8,12 @@ from sklearn import tree
 from sklearn.metrics import accuracy_score
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.naive_bayes import GaussianNB
-
+import os
 from flask import Flask, request, render_template ,redirect
-import json
-import smtplib, ssl
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
+
+
+PROJECT_ROOT = os.path.realpath(os.path.dirname(__file__))
+print(PROJECT_ROOT)
 
 # symptoms - 91
 # PATIENT POSSIBLE SYMPTOMS
@@ -44,7 +44,7 @@ for x in range(0,len(l1)):
     l2.append(0)
 
 # READING TRAINING DATA AND CONVERTING CATEGORICAL VARIABLES TO NUMERIC VARIABLES
-df=pd.read_csv("Training.csv")
+df=pd.read_csv(os.path.join(PROJECT_ROOT,"Training.csv"))
 df.replace({'prognosis':{'Fungal infection':0,'Allergy':1,'GERD':2,'Chronic cholestasis':3,'Drug Reaction':4,'Peptic ulcer diseae':5,
                          'AIDS':6,'Diabetes ':7,'Gastroenteritis':8,'Bronchial Asthma':9,'Hypertension ':10, 'Migraine':11,
                          'Cervical spondylosis':12,'Paralysis (brain hemorrhage)':13,'Jaundice':14,'Malaria':15,'Chicken pox':16,
@@ -58,7 +58,7 @@ y = df[["prognosis"]]
 np.ravel(y)
 
 # READING TESTING DATA AND CONVERTING CATEGORICAL VARIABLES TO NUMERIC VARIABLES
-tr=pd.read_csv("Testing.csv")
+tr=pd.read_csv(os.path.join(PROJECT_ROOT,"Testing.csv"))
 tr.replace({'prognosis':{'Fungal infection':0,'Allergy':1,'GERD':2,'Chronic cholestasis':3,'Drug Reaction':4,'Peptic ulcer diseae':5,
                          'AIDS':6,'Diabetes ':7,'Gastroenteritis':8,'Bronchial Asthma':9,'Hypertension ':10, 'Migraine':11,
                          'Cervical spondylosis':12,'Paralysis (brain hemorrhage)':13,'Jaundice':14,'Malaria':15,'Chicken pox':16,
@@ -135,7 +135,6 @@ def NaiveBayes(psymptoms):
     inputtest = [l2]
     predict = gnb.predict(inputtest)
     predicted=predict[0]
-    print(predicted)
     h=0
     for a in range(0,len(disease)):
         if(predicted == a):
@@ -147,38 +146,6 @@ def NaiveBayes(psymptoms):
         t3.delete("1.0", END)
         t3.insert(END, "Not Found")"""
 
-
-def send(data):
-    port = 87
-    password = 'Amu2020@'
-    email = 'krashant76@gmail.com'
-    context = ssl.create_default_context()
-
-    sender_email = email
-    receiver_email = "divyanksingh20@gmail.com"
-
-    message = f"""\
-        Name : {data[0]}
-        Date : {data[3]}
-        Time : {data[4]}
-        Disease : {data[5]}
-        Doctor : {data[6]}
-        """
-    print(message)
-
-    msg=MIMEMultipart()
-    msg['From'] = sender_email
-    msg['To'] = receiver_email
-    msg['Subject'] = "Appointment booked"
-    msg.attach(MIMEText(message,'plain'))
-
-    session = smtplib.SMTP('smtp.gmail.com', port)
-    session.starttls()
-    session.login(sender_address, sender_pass)
-    text = msg.as_string()
-    session.sendmail(sender_email,receiver_email, text)
-    session.quit()
-    print("success")
 
 app = Flask(__name__)
 
@@ -224,14 +191,29 @@ def signup():
 def recommend():    
     if request.method == "POST":
         temp = request.data
-        print(temp)
         temp = temp.decode()
         temp = temp.split(',')
 
         doc_info = NaiveBayes(temp)
-        
-        file = open("static/script/temp.js",'w')
-        file.write(f'var doc_info = "{doc_info[0]}?{doc_info[1]}?{doc_info[2]}?{doc_info[3]}?{doc_info[4]}"')
+        path = os.path.join(PROJECT_ROOT,"static")
+        path = os.path.join(path,"script")
+        path = os.path.join(path,"docitems.js")
+        file = open(path,'w')
+        file.write('''var doc_info = "'''+str(doc_info[0])+'''?'''+str(doc_info[1])+'''?'''+str(doc_info[2])+'''?'''+str(doc_info[3])+'''?'''+str(doc_info[4])+'''"
+        doc_info = doc_info.split("?")
+var docblock = document.getElementById("docblock")
+var html = `<div class="flex border-t border-gray-200 py-2"><span class="text-gray-500">Disease: </span><span class="ml-auto text-gray-900">${doc_info[0]}</span></div><div class="flex border-t border-gray-200 py-2"><span class="text-gray-500">Doctor Name: </span><span class="ml-auto text-gray-900">${doc_info[2]}</span></div><div class="flex border-t border-gray-200 py-2"><span class="text-gray-500">Mobile No: </span><span class="ml-auto text-gray-900">${doc_info[3]}</span></div><div class="flex border-t border-b mb-6 border-gray-200 py-2"><span class="text-gray-500">Address: </span><span class="ml-auto text-gray-900">${doc_info[4]}</span></div>`
+docblock.innerHTML =  html
+
+var docimage = document.getElementById("docimage")
+
+async function getUsers() {
+  let response =await fetch("https://fakeface.rest/face/json?gender=male&minimum_age=35")
+  let data = await response.json()
+  return data
+}
+
+getUsers().then(data => docimage.innerHTML=`<img alt="doctor" width="400" height="400" src="${data.image_url}">`)''')
         file.close()
 
     return render_template('recommend.html')
@@ -239,27 +221,3 @@ def recommend():
 @app.route('/doc',methods=['POST','GET'])
 def docinfo():
     return render_template('docinfo.html')
-
-@app.route('/book',methods=['POST','GET'])
-def book():
-    return render_template('book.html')
-
-@app.route('/map',methods=['POST','GET'])
-def map():
-    
-    return render_template('map.html')
-
-@app.route('/data',methods=['POST','GET'])
-def data():
-    if request.method=='POST':
-        data = request.data
-        data = data.decode()
-        data = data.split(',')
-        print(data)
-
-@app.route('/submit',methods=['POST','GET'])
-def submit():
-    return render_template("submit.html")
-app.ddebug = True
-app.run(port = 5000)
-
