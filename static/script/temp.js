@@ -1,1 +1,1 @@
-var doc_info = "Chicken pox?16?Dr. Debashis Biswas?1717306650?House No:2,Ward No:1,Vill:Horogram,P.O: Rajshahi C"
+var doc_info = "Fungal infection?0?Dr. Mahboob Jahan Ahmed?1712290927?Adhunik Sadar Hospital, Chapainawabganj"
